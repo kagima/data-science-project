@@ -1,0 +1,29 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+# Load the data
+df = pd.read_csv('churn_data.csv')
+
+# Prepare the data
+X = df.drop('churn', axis=1)
+y = df['churn']
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+
+# Create a logistic regression model
+model = LogisticRegression()
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Evaluate the model
+y_pred = model.predict(X_test)
+print('Accuracy:', model.score(X_test, y_test))
+
+# Make a prediction for a new customer
+new_customer = [10, 20, 30, 40]
+prediction = model.predict_proba(new_customer)[0][1]
+
+print('Prediction:', prediction)
